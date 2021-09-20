@@ -209,7 +209,10 @@ describe('[queries] errors', () => {
       let iteration = 0;
       let done = false;
       const ErrorContainer = withState('var', 'setVar', 1)(
-        graphql<Props, Data, Vars>(query)(
+        graphql<Props, Data, Vars>(
+          query,
+          { options: { notifyOnNetworkStatusChange: true }},
+        )(
           class extends React.Component<ChildProps<Props, Data, Vars>> {
             componentDidUpdate() {
               const { props } = this;
@@ -227,7 +230,7 @@ describe('[queries] errors', () => {
                   );
                 } else if (iteration === 3) {
                   // variables have changed, wee are loading again but also have data
-                  expect(props.data!.loading).toBeTruthy();
+                  expect(props.data!.loading).toBe(true);
                 } else if (iteration === 4) {
                   // the second request had an error!
                   expect(props.data!.error).toBeTruthy();
@@ -249,8 +252,8 @@ describe('[queries] errors', () => {
             render() {
               return null;
             }
-          }
-        )
+          },
+        ),
       );
 
       render(
@@ -460,9 +463,11 @@ describe('[queries] errors', () => {
                   });
                 break;
               case 3:
+                // Second render was added by useSyncExternalStore changes...
+              case 4:
                 expect(props.data!.loading).toBeTruthy();
                 break;
-              case 4:
+              case 5:
                 expect(props.data!.loading).toBeFalsy();
                 expect(props.data!.error).toBeFalsy();
                 expect(props.data!.allPeople).toEqual(
@@ -489,7 +494,7 @@ describe('[queries] errors', () => {
       </ApolloProvider>
     );
 
-    return wait(() => expect(count).toBe(5)).then(resolve, reject);
+    return wait(() => expect(count).toBe(6)).then(resolve, reject);
   });
 
   itAsync('does not throw/console.err an error after a component that received a network error is unmounted', (resolve, reject) => {
