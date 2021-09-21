@@ -1794,7 +1794,7 @@ describe('Query component', () => {
     }).then(resolve, reject);
   });
 
-  describe.skip('Partial refetching', () => {
+  describe('Partial refetching', () => {
     let errorSpy!: ReturnType<typeof jest.spyOn>;
 
     beforeEach(() => {
