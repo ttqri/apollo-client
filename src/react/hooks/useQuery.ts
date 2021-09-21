@@ -186,7 +186,7 @@ export function useQuery<
     subscribeToMore: obsQuery.subscribeToMore.bind(obsQuery),
   }), [obsQuery]);
 
-  let result = useSyncExternalStore(subscribe, getSnapshot);
+  let result = useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
   useEffect(() => {
     if (
       ref.current.options?.skip ||
