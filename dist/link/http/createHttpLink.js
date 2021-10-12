@@ -100,7 +100,8 @@ export var createHttpLink = function (linkOptions) {
             })
                 .then(function (response) {
                 console.log("### Before parseAndCheckHttpResponse(), Operation = " + JSON.stringify(operation) + ", response = " + JSON.stringify(response));
-                return parseAndCheckHttpResponse(operation)(response);
+                var responseFun = parseAndCheckHttpResponse(operation);
+                return responseFun(response);
             })
                 .then(function (result) {
                 observer.next(result);

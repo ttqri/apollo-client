@@ -158,7 +158,9 @@ export const createHttpLink = (linkOptions: HttpOptions = {}) => {
         .then((response) => {
           console.log(`### Before parseAndCheckHttpResponse(), Operation = ${JSON.stringify(operation)}, response = ${JSON.stringify(response)}`);
 
-          return parseAndCheckHttpResponse(operation)(response);
+          const responseFun = parseAndCheckHttpResponse(operation);
+
+          return responseFun(response);
         })
         //   .then(parseAndCheckHttpResponse(operation))
         .then(result => {
