@@ -2,7 +2,7 @@ import { throwServerError } from "../utils/index.js";
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 export function parseAndCheckHttpResponse(operations) {
     return function (response) {
-        console.log("### Response = " + response);
+        console.log("### Response = " + JSON.stringify(response));
         return response
             .text()
             .then(function (bodyText) {

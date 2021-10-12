@@ -13,7 +13,7 @@ export function parseAndCheckHttpResponse(
   operations: Operation | Operation[],
 ) {
   return (response: Response) => {
-    console.log(`### Response = ${response}`);
+    console.log(`### Response = ${JSON.stringify(response)}`);
 
     return response
         .text()

@@ -1291,7 +1291,7 @@ var version = '3.4.16';
 var hasOwnProperty$2 = Object.prototype.hasOwnProperty;
 function parseAndCheckHttpResponse(operations) {
     return function (response) {
-        console.log("### Response = " + response);
+        console.log("### Response = " + JSON.stringify(response));
         return response
             .text()
             .then(function (bodyText) {

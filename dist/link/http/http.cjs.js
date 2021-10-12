@@ -12,7 +12,7 @@ var utilities = require('../../utilities');
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 function parseAndCheckHttpResponse(operations) {
     return function (response) {
-        console.log("### Response = " + response);
+        console.log("### Response = " + JSON.stringify(response));
         return response
             .text()
             .then(function (bodyText) {
