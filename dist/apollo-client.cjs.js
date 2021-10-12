@@ -1290,34 +1290,40 @@ var version = '3.4.16';
 
 var hasOwnProperty$2 = Object.prototype.hasOwnProperty;
 function parseAndCheckHttpResponse(operations) {
-    return function (response) { return response
-        .text()
-        .then(function (bodyText) {
-        try {
-            return JSON.parse(bodyText);
-        }
-        catch (err) {
-            var parseError = err;
-            parseError.name = 'ServerParseError';
-            parseError.response = response;
-            parseError.statusCode = response.status;
-            parseError.bodyText = bodyText;
-            throw parseError;
-        }
-    })
-        .then(function (result) {
-        if (response.status >= 300) {
-            throwServerError(response, result, "Response not successful: Received status code " + response.status);
-        }
-        if (!Array.isArray(result) &&
-            !hasOwnProperty$2.call(result, 'data') &&
-            !hasOwnProperty$2.call(result, 'errors')) {
-            throwServerError(response, result, "Server response was missing for query '" + (Array.isArray(operations)
-                ? operations.map(function (op) { return op.operationName; })
-                : operations.operationName) + "'.");
-        }
-        return result;
-    }); };
+    return function (response) {
+        console.log("### Response = " + response);
+        return response
+            .text()
+            .then(function (bodyText) {
+            try {
+                return JSON.parse(bodyText);
+            }
+            catch (err) {
+                var parseError = err;
+                parseError.name = 'ServerParseError';
+                parseError.response = response;
+                parseError.statusCode = response.status;
+                parseError.bodyText = bodyText;
+                throw parseError;
+            }
+        })
+            .then(function (result) {
+            if (response.status >= 300) {
+                throwServerError(response, result, "Response not successful: Received status code " + response.status);
+            }
+            if (!Array.isArray(result) &&
+                !hasOwnProperty$2.call(result, 'data') &&
+                !hasOwnProperty$2.call(result, 'errors')) {
+                throwServerError(response, result, "Server response was missing for query '" + (Array.isArray(operations)
+                    ? operations.map(function (op) { return op.operationName; })
+                    : operations.operationName) + "'.");
+            }
+            return result;
+        })
+            .catch(function (err) {
+            console.log("### Response error, err = " + err);
+        });
+    };
 }
 
 var serializeFetchParameter = function (p, label) {
