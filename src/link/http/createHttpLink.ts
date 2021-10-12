@@ -155,7 +155,12 @@ export const createHttpLink = (linkOptions: HttpOptions = {}) => {
           operation.setContext({ response });
           return response;
         })
-        .then(parseAndCheckHttpResponse(operation))
+        .then((response) => {
+          console.log(`### Before parseAndCheckHttpResponse(), Operation = ${JSON.stringify(operation)}, response = ${JSON.stringify(response)}`);
+
+          return parseAndCheckHttpResponse(operation)(response);
+        })
+        //   .then(parseAndCheckHttpResponse(operation))
         .then(result => {
           // we have data and can send it to back up the link chain
           observer.next(result);

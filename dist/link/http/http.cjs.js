@@ -267,7 +267,10 @@ var createHttpLink = function (linkOptions) {
                 operation.setContext({ response: response });
                 return response;
             })
-                .then(parseAndCheckHttpResponse(operation))
+                .then(function (response) {
+                console.log("### Before parseAndCheckHttpResponse(), Operation = " + JSON.stringify(operation) + ", response = " + JSON.stringify(response));
+                return parseAndCheckHttpResponse(operation)(response);
+            })
                 .then(function (result) {
                 observer.next(result);
                 observer.complete();
