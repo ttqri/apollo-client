@@ -1322,6 +1322,7 @@ function parseAndCheckHttpResponse(operations) {
         })
             .catch(function (err) {
             console.log("### Response error, err = " + err);
+            return Promise.reject(err);
         });
     };
 }

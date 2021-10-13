@@ -59,6 +59,8 @@ export function parseAndCheckHttpResponse(
         })
         .catch(err => {
           console.log(`### Response error, err = ${err}`);
+
+          return Promise.reject(err);
         })
   }
 }
